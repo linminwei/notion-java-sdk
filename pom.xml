@@ -26,7 +26,7 @@
         <dependency>
             <groupId>io.github.linminwei</groupId>
             <artifactId>common-utils</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>
@@ -59,7 +59,7 @@
     <!--    1.这里的groupId填写你在maven中央仓库上传地址的命名空间namespace-->
     <groupId>io.github.linminwei</groupId>
     <artifactId>notion-java-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <name>notion-java-sdk</name>
     <description>Notion非官方Java SDK</description>
     <url>https://github.com/linminwei/notion-java-sdk</url>
