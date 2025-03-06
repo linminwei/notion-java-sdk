@@ -8,13 +8,58 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.seratch</groupId>
+            <artifactId>notion-sdk-jvm-core</artifactId>
+            <version>1.11.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.linminwei</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.51</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+        </dependency>
+    </dependencies>
+    <!--NotionSDK-->
+
 
     <!--    1.这里的groupId填写你在maven中央仓库上传地址的命名空间namespace-->
     <groupId>io.github.linminwei</groupId>
     <artifactId>notion-java-sdk</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <name>notion-java-sdk</name>
     <description>Notion非官方Java SDK</description>
     <url>https://github.com/linminwei/notion-java-sdk</url>
