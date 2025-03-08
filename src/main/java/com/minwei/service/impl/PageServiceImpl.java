@@ -1,10 +1,13 @@
 package com.minwei.service.impl;
 
+import com.minwei.config.NotionConfig;
 import com.minwei.dto.NotionConfigDTO;
 import com.minwei.reposotpry.PageRepository;
+import com.minwei.service.CommonService;
 import com.minwei.service.PageService;
 import com.minwei.utils.DateUtil;
 import com.minwei.utils.NotionUtil;
+import com.minwei.vo.NotionConfigVo;
 import com.minwei.vo.PageVo;
 import notion.api.v1.NotionClient;
 import notion.api.v1.model.common.File;
@@ -29,13 +32,24 @@ public class PageServiceImpl implements PageService {
 
     @Resource
     private PageRepository pageRepository;
+    @Resource
+    private CommonService commonService;
+    @Resource
+    private NotionConfig notionConfig;
 
     @Override
     public <T> String createPage(T object) {
+
+        // 获取Notion配置
+        NotionConfigVo notionConfig = commonService.getNotionConfig(object);
+
+
         // 获取Notion业务实体配置
         NotionConfigDTO config = NotionUtil.getNotionConfig(object);
         // 获取Notion客户端
         NotionClient client = NotionUtil.getClient(config.getToken());
+
+
         // 构建属性
         Map<String, PageProperty> pagePropertyMap = NotionUtil.buildProperties(config.getProperties());
         // 获取icon配置

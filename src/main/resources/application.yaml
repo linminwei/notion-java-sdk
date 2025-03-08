@@ -1,0 +1,13 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: notion-plus
+notion:
+  token:
+    home:
+  entity:
+    databaseId:
+      "com.minwei.third.douban.entity.NotionMovie": "19d0781b0524803388a2c2d55f4e7958"
+    token:
+      "com.minwei.third.douban.entity.NotionMovie": ${notion.common.token.home}
