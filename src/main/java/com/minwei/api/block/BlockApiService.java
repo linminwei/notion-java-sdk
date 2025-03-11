@@ -21,4 +21,12 @@ public interface BlockApiService {
      */
     NotionResponse<NotionBlock> appendBlockChildren(String token, String blockId, AppendBlockChildrenRequest request);
 
+
+    /**
+     * 检索区块
+     * @param blockId 块id
+     * @return 检索区块响应
+     */
+    NotionBlock retrieveBlock(String token,String blockId);
+
 }

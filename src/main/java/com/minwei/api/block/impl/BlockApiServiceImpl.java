@@ -27,4 +27,19 @@ public class BlockApiServiceImpl implements BlockApiService {
 
         return notionClient.patch(endpoint, jsonBody, NotionBlock.class);
     }
+
+    @Override
+    public NotionBlock retrieveBlock(String token,String blockId) {
+
+        String endpoint = "/blocks/" + blockId;
+
+        NotionClient notionClient = new NotionClient(token);
+
+        NotionBlock one = notionClient.getOne(endpoint, NotionBlock.class);
+
+
+        System.out.println(one);
+
+        return null;
+    }
 }

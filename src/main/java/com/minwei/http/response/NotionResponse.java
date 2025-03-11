@@ -1,5 +1,6 @@
 package com.minwei.http.response;
 
+import com.minwei.model.blocks.NotionBlock;
 import lombok.Data;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class NotionResponse<T> {
      * 是否还有更多数据
      */
     private boolean hasMore;
+
+    private NotionBlock block;
 
     private NotionErrorResponse notionErrorResponse;
 

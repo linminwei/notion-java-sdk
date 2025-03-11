@@ -36,6 +36,7 @@ import lombok.NoArgsConstructor;
         @JsonSubTypes.Type(value = QuoteBlock.class, name = "quote"),
         @JsonSubTypes.Type(value = TableOfContentsBlock.class, name = "table_of_contents"),
         @JsonSubTypes.Type(value = TodoBlock.class, name = "to_do"),
+        @JsonSubTypes.Type(value = VideoBlock.class, name = "video"),
 })
 @AllArgsConstructor
 @NoArgsConstructor

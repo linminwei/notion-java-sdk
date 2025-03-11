@@ -46,6 +46,24 @@ public class NotionClient {
     }
 
     /**
+     * 发送 GET 请求
+     *
+     * @param endpoint     API 端点
+     * @param responseType 响应类型
+     * @param <T>          响应数据类型
+     * @return NotionResponse<T>
+     */
+    public <T> T getOne(String endpoint, Class<T> responseType) {
+        Request request = new Request.Builder()
+                .url(NOTION_API_BASE_URL + endpoint)
+                .get()
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Notion-Version", NOTION_API_VERSION).build();
+
+        return executeRequestOne(request, responseType);
+    }
+
+    /**
      * 发送 POST 请求
      *
      * @param endpoint     API 端点
@@ -129,6 +147,27 @@ public class NotionClient {
 
 
             return JsonUtil.fromJsonByParametricType(responseBody, NotionResponse.class, responseType);
+        } catch (IOException e) {
+            throw new NotionException("执行Notion请求异常: ", e);
+        }
+    }
+
+    private <T> T executeRequestOne(Request request, Class<T> responseType) {
+        try (Response response = client.newCall(request).execute()) {
+            if (response.body() == null) {
+                throw new NotionException("notion返回空数据：" + response);
+            }
+
+            if (!response.isSuccessful()) {
+                String string = response.body().string();
+                NotionErrorResponse errorResponse = JsonUtil.fromJson(string, NotionErrorResponse.class);
+
+                return null;
+            }
+            String responseBody = response.body().string();
+
+
+            return JsonUtil.fromJson(responseBody, responseType);
         } catch (IOException e) {
             throw new NotionException("执行Notion请求异常: ", e);
         }
