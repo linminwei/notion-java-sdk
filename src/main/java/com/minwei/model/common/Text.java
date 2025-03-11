@@ -1,4 +1,4 @@
-package com.minwei.entity.common;
+package com.minwei.model.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

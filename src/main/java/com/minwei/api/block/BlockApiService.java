@@ -1,8 +1,8 @@
 package com.minwei.api.block;
 
-import com.minwei.entity.block.Block;
-import com.minwei.model.request.block.AppendBlockChildrenRequest;
-import com.minwei.model.response.NotionResponse;
+import com.minwei.http.request.block.AppendBlockChildrenRequest;
+import com.minwei.http.response.NotionResponse;
+import com.minwei.model.blocks.NotionBlock;
 
 /**
  * Notion API 服务
@@ -11,6 +11,14 @@ import com.minwei.model.response.NotionResponse;
  */
 public interface BlockApiService {
 
-    <T extends Block> NotionResponse<Block> appendBlockChildren(String token, String blockId, AppendBlockChildrenRequest request);
+    /**
+     * 追加块子项
+     *
+     * @param token   token
+     * @param blockId 块标识符,也接受页面id
+     * @param request 追加块请求
+     * @return 追加块响应
+     */
+    NotionResponse<NotionBlock> appendBlockChildren(String token, String blockId, AppendBlockChildrenRequest request);
 
 }

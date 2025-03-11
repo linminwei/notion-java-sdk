@@ -1,8 +1,8 @@
 package com.minwei.client;
 
 import com.minwei.exception.NotionException;
-import com.minwei.model.response.NotionErrorResponse;
-import com.minwei.model.response.NotionResponse;
+import com.minwei.http.response.NotionErrorResponse;
+import com.minwei.http.response.NotionResponse;
 import com.minwei.utils.JsonUtil;
 import okhttp3.*;
 

@@ -1,10 +1,7 @@
 package com.minwei.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.*;
 
 /**
  * JSON工具类
@@ -22,6 +19,8 @@ public class JsonUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 序列化忽略null值
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        // 没有需序列化的成员
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
     public static String toJson(Object obj) {

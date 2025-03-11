@@ -2,9 +2,9 @@ package com.minwei.api.block.impl;
 
 import com.minwei.api.block.BlockApiService;
 import com.minwei.client.NotionClient;
-import com.minwei.entity.block.Block;
-import com.minwei.model.request.block.AppendBlockChildrenRequest;
-import com.minwei.model.response.NotionResponse;
+import com.minwei.http.request.block.AppendBlockChildrenRequest;
+import com.minwei.http.response.NotionResponse;
+import com.minwei.model.blocks.NotionBlock;
 import com.minwei.utils.JsonUtil;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class BlockApiServiceImpl implements BlockApiService {
 
     @Override
-    public <T extends Block> NotionResponse<Block> appendBlockChildren(String token, String blockId, AppendBlockChildrenRequest request) {
+    public NotionResponse<NotionBlock> appendBlockChildren(String token, String blockId, AppendBlockChildrenRequest request) {
 
         String jsonBody = JsonUtil.toJson(request);
 
@@ -25,6 +25,6 @@ public class BlockApiServiceImpl implements BlockApiService {
 
         NotionClient notionClient = new NotionClient(token);
 
-        return notionClient.patch(endpoint, jsonBody, Block.class);
+        return notionClient.patch(endpoint, jsonBody, NotionBlock.class);
     }
 }

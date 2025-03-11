@@ -1,4 +1,4 @@
-package com.minwei.model.response;
+package com.minwei.http.response;
 
 import lombok.Data;
 

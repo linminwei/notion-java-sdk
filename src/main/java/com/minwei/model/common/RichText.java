@@ -1,8 +1,7 @@
-package com.minwei.entity.common;
+package com.minwei.model.common;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 富文本对象
@@ -11,8 +10,7 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class RichText {
 
     private final String type = "text";
