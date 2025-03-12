@@ -1,5 +1,6 @@
 package com.minwei.model.blocks;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.minwei.model.common.CreatedBy;
@@ -7,6 +8,8 @@ import com.minwei.model.common.LastEditedBy;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * @author lmw
@@ -52,12 +55,14 @@ public abstract class NotionBlock {
     /**
      * 创建时间
      */
-    private String createdTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
+    private Date createdTime;
 
     /**
      * 最后编辑时间
      */
-    private String lastEditedTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="UTC")
+    private Date lastEditedTime;
 
     /**
      * 创建人

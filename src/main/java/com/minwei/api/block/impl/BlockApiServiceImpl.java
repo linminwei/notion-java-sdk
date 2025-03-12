@@ -29,17 +29,13 @@ public class BlockApiServiceImpl implements BlockApiService {
     }
 
     @Override
-    public NotionBlock retrieveBlock(String token,String blockId) {
+    public NotionResponse<NotionBlock> retrieveBlock(String token, String blockId) {
 
         String endpoint = "/blocks/" + blockId;
 
         NotionClient notionClient = new NotionClient(token);
 
-        NotionBlock one = notionClient.getOne(endpoint, NotionBlock.class);
+        return notionClient.getWithoutNotionResponse(endpoint, NotionBlock.class);
 
-
-        System.out.println(one);
-
-        return null;
     }
 }

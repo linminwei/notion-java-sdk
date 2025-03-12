@@ -7,6 +7,7 @@ import com.minwei.utils.JsonUtil;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Notion客户端
@@ -45,23 +46,16 @@ public class NotionClient {
         return executeRequest(request, responseType);
     }
 
-    /**
-     * 发送 GET 请求
-     *
-     * @param endpoint     API 端点
-     * @param responseType 响应类型
-     * @param <T>          响应数据类型
-     * @return NotionResponse<T>
-     */
-    public <T> T getOne(String endpoint, Class<T> responseType) {
+    public <T> NotionResponse<T> getWithoutNotionResponse(String endpoint, Class<T> responseType) {
         Request request = new Request.Builder()
                 .url(NOTION_API_BASE_URL + endpoint)
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
                 .addHeader("Notion-Version", NOTION_API_VERSION).build();
 
-        return executeRequestOne(request, responseType);
+        return executeRequestWithoutNotionResponse(request, responseType);
     }
+
 
     /**
      * 发送 POST 请求
@@ -135,42 +129,53 @@ public class NotionClient {
                 throw new NotionException("notion返回空数据：" + response);
             }
 
-            if (!response.isSuccessful()) {
-                String string = response.body().string();
-                NotionErrorResponse errorResponse = JsonUtil.fromJson(string, NotionErrorResponse.class);
-
-                NotionResponse<T> objectNotionResponse = new NotionResponse<>();
-                objectNotionResponse.setNotionErrorResponse(errorResponse);
-                return objectNotionResponse;
-            }
             String responseBody = response.body().string();
 
+            if (!response.isSuccessful()) {
 
+                return handleErrorResponse(responseBody);
+            }
             return JsonUtil.fromJsonByParametricType(responseBody, NotionResponse.class, responseType);
         } catch (IOException e) {
             throw new NotionException("执行Notion请求异常: ", e);
         }
     }
 
-    private <T> T executeRequestOne(Request request, Class<T> responseType) {
+    /**
+     * 执行请求并处理响应
+     *
+     * @param request      请求对象
+     * @param responseType 响应类型
+     * @param <T>          响应数据类型
+     * @return NotionResponse<T>
+     */
+    private <T> NotionResponse<T> executeRequestWithoutNotionResponse(Request request, Class<T> responseType) {
         try (Response response = client.newCall(request).execute()) {
             if (response.body() == null) {
                 throw new NotionException("notion返回空数据：" + response);
             }
 
-            if (!response.isSuccessful()) {
-                String string = response.body().string();
-                NotionErrorResponse errorResponse = JsonUtil.fromJson(string, NotionErrorResponse.class);
-
-                return null;
-            }
             String responseBody = response.body().string();
 
+            if (!response.isSuccessful()) {
+                return handleErrorResponse(responseBody);
+            }
 
-            return JsonUtil.fromJson(responseBody, responseType);
+            T t = JsonUtil.fromJson(responseBody, responseType);
+
+            NotionResponse<T> notionResponse = new NotionResponse<>();
+            notionResponse.setResults(Collections.singletonList(t));
+
+            return notionResponse;
         } catch (IOException e) {
             throw new NotionException("执行Notion请求异常: ", e);
         }
     }
 
+    private <T> NotionResponse<T> handleErrorResponse(String responseBody) {
+        NotionErrorResponse errorResponse = JsonUtil.fromJson(responseBody, NotionErrorResponse.class);
+        NotionResponse<T> notionResponse = new NotionResponse<>();
+        notionResponse.setNotionErrorResponse(errorResponse);
+        return notionResponse;
+    }
 }

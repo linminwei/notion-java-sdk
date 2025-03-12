@@ -27,6 +27,6 @@ public interface BlockApiService {
      * @param blockId 块id
      * @return 检索区块响应
      */
-    NotionBlock retrieveBlock(String token,String blockId);
+    NotionResponse<NotionBlock> retrieveBlock(String token,String blockId);
 
 }
