@@ -1,26 +1,25 @@
-package com.minwei.model.common.file;
+package com.minwei.model.emoji;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.minwei.model.icon.Icon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * 通用文件对象
- *
  * @author lmw
+ * emoji表情抽象类
  */
-
-@Data
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = NotionFile.class, name = "file"),
-        @JsonSubTypes.Type(value = ExternalFile.class, name = "external")
+        @JsonSubTypes.Type(value = NotionEmoji.class, name = "emoji"),
+        @JsonSubTypes.Type(value = CustomEmoji.class, name = "custom_emoji")
 })
+@Data
 @AllArgsConstructor
-public abstract class File {
+public abstract class Emoji extends Icon {
 }

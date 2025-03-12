@@ -24,9 +24,22 @@ public interface BlockApiService {
 
     /**
      * 检索区块
+     *
      * @param blockId 块id
      * @return 检索区块响应
      */
-    NotionResponse<NotionBlock> retrieveBlock(String token,String blockId);
+    NotionResponse<NotionBlock> retrieveBlock(String token, String blockId);
+
+
+    /**
+     * 检索块子项
+     * 使用指定id返回包含的子块对象分页数组
+     *
+     * @param token
+     * @param blockId
+     * @return
+     */
+    NotionResponse<NotionBlock> retrieveBlockChildren(String token, String blockId);
+
 
 }

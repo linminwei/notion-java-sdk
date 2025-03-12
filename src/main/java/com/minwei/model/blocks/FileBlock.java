@@ -1,30 +1,30 @@
 package com.minwei.model.blocks;
 
-import com.minwei.model.common.RichText;
-import com.minwei.model.common.file.ExternalFile;
-import com.minwei.model.common.file.NotionFile;
+import com.minwei.model.common.richtext.RichText;
+import com.minwei.model.file.ExternalFile;
+import com.minwei.model.file.File;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
- * 文件块对象
- *
  * @author lmw
+ * 文件块对象
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileBlock extends NotionBlock {
 
-    private FileContent file;
+    private File file;
 
-    public FileBlock(String caption, String name, String fileUrl) {
-        this.file = new FileContent(caption, name, fileUrl);
+    public FileBlock(String title, String url, String name) {
+        this.file = new ExternalFile(url, title, name);
     }
+
 
     @Data
     @AllArgsConstructor
@@ -36,21 +36,16 @@ public class FileBlock extends NotionBlock {
          */
         private List<RichText> caption;
 
-        private String type = "external";
-
-        private NotionFile external;
+        /**
+         * 文件对象
+         */
+        private File file;
 
         /**
          * 文件块名称
          */
         private String name;
-
-        public FileContent(String caption, String name, String fileUrl) {
-            this.caption = Collections.singletonList(new RichText(caption));
-            this.name = name;
-            this.external = new ExternalFile(fileUrl);
-        }
-
     }
+
 
 }

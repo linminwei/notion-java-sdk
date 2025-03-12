@@ -38,4 +38,15 @@ public class BlockApiServiceImpl implements BlockApiService {
         return notionClient.getWithoutNotionResponse(endpoint, NotionBlock.class);
 
     }
+
+    @Override
+    public NotionResponse<NotionBlock> retrieveBlockChildren(String token, String blockId) {
+
+        String endpoint = "/blocks/" + blockId + "/children";
+
+        NotionClient notionClient = new NotionClient(token);
+
+        return notionClient.get(endpoint, NotionBlock.class);
+
+    }
 }

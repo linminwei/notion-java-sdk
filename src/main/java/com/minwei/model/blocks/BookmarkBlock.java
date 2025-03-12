@@ -1,6 +1,7 @@
 package com.minwei.model.blocks;
 
-import com.minwei.model.common.RichText;
+import com.minwei.model.common.richtext.RichText;
+import com.minwei.model.common.richtext.text.Text;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class BookmarkBlock extends NotionBlock {
     private BookmarkContent bookmark;
 
     public BookmarkBlock(String caption, String url) {
-        this.bookmark = new BookmarkContent(Collections.singletonList(new RichText(caption)), url);
+        this.bookmark = new BookmarkContent(Collections.singletonList(new Text(caption)), url);
     }
 
     @Data

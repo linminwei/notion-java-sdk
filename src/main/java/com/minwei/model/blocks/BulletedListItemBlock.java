@@ -1,7 +1,8 @@
 package com.minwei.model.blocks;
 
 import com.minwei.enums.NotionColor;
-import com.minwei.model.common.RichText;
+import com.minwei.model.common.richtext.RichText;
+import com.minwei.model.common.richtext.text.Text;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 项目符号列表项块对象
- *
  * @author lmw
+ * 项目符号列表项块对象
  */
 @Data
 @AllArgsConstructor
@@ -21,53 +21,44 @@ public class BulletedListItemBlock extends NotionBlock {
 
     private BulletedListItemContent bulletedListItem;
 
-    public BulletedListItemBlock(String contents) {
-        this.bulletedListItem = new BulletedListItemContent(contents);
+    public BulletedListItemBlock(String content) {
+        this.bulletedListItem = new BulletedListItemContent(content, NotionColor.DEFAULT, null);
     }
 
-    public BulletedListItemBlock(String contents, List<NotionBlock> blocks) {
-        this.bulletedListItem = new BulletedListItemContent(contents, blocks);
+    public BulletedListItemBlock(String content, NotionColor notionColor) {
+        this.bulletedListItem = new BulletedListItemContent(content, notionColor, null);
     }
 
-    public BulletedListItemBlock(String contents, NotionColor color) {
-        this.bulletedListItem = new BulletedListItemContent(contents, color);
-    }
-
-    public BulletedListItemBlock(String contents, NotionColor color, List<NotionBlock> blocks) {
-        this.bulletedListItem = new BulletedListItemContent(contents, color, blocks);
+    public BulletedListItemBlock(String content, NotionColor notionColor, List<NotionBlock> children) {
+        this.bulletedListItem = new BulletedListItemContent(content, notionColor, children);
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     private static class BulletedListItemContent {
+
+        /**
+         * 块中的富文本
+         */
         private List<RichText> richText;
 
-        private NotionColor color = NotionColor.DEFAULT;
+        /**
+         * 块的颜色
+         */
+        private NotionColor color;
 
+        /**
+         * 块的嵌套子块
+         */
         private List<NotionBlock> children;
 
-        public BulletedListItemContent(String content) {
-            this.richText = Collections.singletonList(new RichText(content));
-        }
 
-
-        public BulletedListItemContent(String content, NotionColor color) {
-            this.richText = Collections.singletonList(new RichText(content));
+        public BulletedListItemContent(String content, NotionColor color, List<NotionBlock> children) {
+            this.richText = Collections.singletonList(new Text(content));
             this.color = color;
-        }
-
-        public BulletedListItemContent(String content, List<NotionBlock> blocks) {
-            this.richText = Collections.singletonList(new RichText(content));
-            this.children = blocks;
-        }
-
-        public BulletedListItemContent(String content, NotionColor color, List<NotionBlock> blocks) {
-            this.richText = Collections.singletonList(new RichText(content));
-            this.color = color;
-            this.children = blocks;
+            this.children = children;
         }
     }
-
 
 }

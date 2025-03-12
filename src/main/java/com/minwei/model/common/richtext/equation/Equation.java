@@ -1,33 +1,34 @@
-package com.minwei.model.blocks;
+package com.minwei.model.common.richtext.equation;
 
+import com.minwei.model.common.richtext.RichText;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 方程块对象
+ * 富文本方程对象
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EquationBlock extends NotionBlock {
+public class Equation extends RichText {
 
     private EquationContent equation;
 
-    public EquationBlock(String expression) {
+    public Equation(String expression) {
         this.equation = new EquationContent(expression);
     }
 
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     private static class EquationContent {
         /**
-         * 一个 KaTeX 兼容的字符串
+         * 表示内联方程的 LaTeX 字符串
          */
-        String expression;
+        private String expression;
     }
+
 
 }

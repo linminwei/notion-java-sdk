@@ -6,25 +6,22 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 嵌入块对象
+ * 子数据块对象
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmbedBlock extends NotionBlock {
+public class ChildDatabaseBlock extends NotionBlock {
 
-    private EmbedContent embed;
 
-    public EmbedBlock(String url) {
-        this.embed = new EmbedContent(url);
-    }
+    private ChildDatabaseContent childDatabase;
 
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static class EmbedContent {
-        String url;
+    private static class ChildDatabaseContent {
+        private String title;
     }
 
 }

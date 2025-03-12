@@ -6,25 +6,20 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 嵌入块对象
+ * 子页面块对象
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmbedBlock extends NotionBlock {
+public class ChildPageBlock extends NotionBlock {
 
-    private EmbedContent embed;
-
-    public EmbedBlock(String url) {
-        this.embed = new EmbedContent(url);
-    }
-
+    private ChildPageContent childPage;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static class EmbedContent {
-        String url;
+    private static class ChildPageContent {
+        private String title;
     }
 
 }

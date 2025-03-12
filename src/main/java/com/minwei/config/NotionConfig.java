@@ -16,9 +16,9 @@ public class NotionConfig {
 
     private String token;
 
-    private Map<String,String> database;
+    private Map<String, String> database;
 
-    public String databaseId(String classFullName){
+    public String databaseId(String classFullName) {
         return database.get(classFullName);
     }
 }

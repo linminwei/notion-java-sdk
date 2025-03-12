@@ -1,19 +1,22 @@
-package com.minwei.model.common.file;
+package com.minwei.model.common.parent;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 外部文件对象
+ * 页面父级对象
  *
  * @author lmw
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExternalFile extends NotionFile {
+public class PageParent extends Parent {
 
-    private String url;
+    /**
+     * 页面id
+     */
+    private String pageId;
 
 }

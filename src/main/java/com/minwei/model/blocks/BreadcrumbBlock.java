@@ -6,20 +6,18 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 分割线块对象
+ * 面包屑块对象
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DividerBlock extends NotionBlock {
+public class BreadcrumbBlock extends NotionBlock {
 
-    private DividerContent divider;
-
+    private BreadcrumbContent breadcrumb;
 
     @Data
     @AllArgsConstructor
-    private static class DividerContent {
-
+    private static class BreadcrumbContent {
     }
 
 }

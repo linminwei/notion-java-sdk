@@ -1,18 +1,22 @@
 package com.minwei.model.blocks;
 
 import com.minwei.enums.NotionColor;
-import com.minwei.model.common.RichText;
+import com.minwei.model.common.richtext.RichText;
+import com.minwei.model.common.richtext.text.Text;
+import com.minwei.model.emoji.NotionEmoji;
+import com.minwei.model.file.ExternalFile;
+import com.minwei.model.icon.Icon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * 注解块对象
- *
  * @author lmw
+ * 标注块对象
  */
 @Data
 @AllArgsConstructor
@@ -21,30 +25,45 @@ public class CalloutBlock extends NotionBlock {
 
     private CalloutContent callout;
 
-    public CalloutBlock(List<String> contents) {
-        this.callout = new CalloutContent(contents);
+    public CalloutBlock(String content) {
+        this.callout = new CalloutContent(content, null, null, NotionColor.DEFAULT);
     }
 
-    public CalloutBlock(List<String> contents, NotionColor color) {
-        this.callout = new CalloutContent(contents, color);
+    public CalloutBlock(String content, NotionColor color) {
+        this.callout = new CalloutContent(content, null, null, color);
+    }
+
+    public CalloutBlock(String content, String url, String emoji) {
+        this.callout = new CalloutContent(content, url, emoji, NotionColor.DEFAULT);
+    }
+
+    public CalloutBlock(String content, String url, String emoji, NotionColor color) {
+        this.callout = new CalloutContent(content, url, emoji, color);
     }
 
     @Data
+    @AllArgsConstructor
     @NoArgsConstructor
     private static class CalloutContent {
+
         private List<RichText> richText;
 
-        private NotionColor color = NotionColor.DEFAULT;
+        private Icon icon;
 
-        public CalloutContent(List<String> contents) {
-            this.richText = contents.stream().map(RichText::new).collect(Collectors.toList());
-        }
+        private NotionColor color;
 
-        public CalloutContent(List<String> contents, NotionColor color) {
-            this.richText = contents.stream().map(RichText::new).collect(Collectors.toList());
+        public CalloutContent(String content, String url, String emoji, NotionColor color) {
+            this.richText = Collections.singletonList(new Text(content));
+
+            if (StringUtils.isNotBlank(url)) {
+                this.icon = new ExternalFile(url);
+            }
+            if (StringUtils.isNotBlank(emoji)) {
+                this.icon = new NotionEmoji(emoji);
+            }
+
             this.color = color;
         }
-
     }
 
 }
