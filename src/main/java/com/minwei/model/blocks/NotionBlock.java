@@ -33,6 +33,18 @@ import java.util.Date;
         @JsonSubTypes.Type(value = EmbedBlock.class, name = "embed"),
         @JsonSubTypes.Type(value = EquationBlock.class, name = "equation"),
         @JsonSubTypes.Type(value = FileBlock.class, name = "file"),
+        @JsonSubTypes.Type(value = HeadingOneBlock.class, name = "heading_1"),
+        @JsonSubTypes.Type(value = HeadingTwoBlock.class, name = "heading_2"),
+        @JsonSubTypes.Type(value = HeadingThreeBlock.class, name = "heading_3"),
+        @JsonSubTypes.Type(value = ImageBlock.class, name = "image"),
+        @JsonSubTypes.Type(value = LinkPreviewBlock.class, name = "link_preview"),
+        @JsonSubTypes.Type(value = NumberedListItemBlock.class, name = "numbered_list_item"),
+        @JsonSubTypes.Type(value = ParagraphBlock.class, name = "paragraph"),
+        @JsonSubTypes.Type(value = PdfBlock.class, name = "pdf"),
+        @JsonSubTypes.Type(value = QuoteBlock.class, name = "quote"),
+        @JsonSubTypes.Type(value = TodoBlock.class, name = "to_do"),
+        @JsonSubTypes.Type(value = ToggleBlock.class, name = "toggle"),
+        @JsonSubTypes.Type(value = VideoBlock.class, name = "video")
 })
 @AllArgsConstructor
 @NoArgsConstructor

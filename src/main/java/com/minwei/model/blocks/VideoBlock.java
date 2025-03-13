@@ -8,18 +8,17 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 文件块对象
+ * 视频块对象
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileBlock extends NotionBlock {
+public class VideoBlock extends NotionBlock {
 
-    private File file;
+    File video;
 
-    public FileBlock(String title, String url, String name) {
-        this.file = new ExternalFile(url, title, name);
+    public VideoBlock(String url) {
+        this.video = new ExternalFile(url);
     }
 
 }

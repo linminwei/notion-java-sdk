@@ -8,18 +8,17 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author lmw
- * 文件块对象
+ * 图像块
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileBlock extends NotionBlock {
+public class ImageBlock extends NotionBlock {
 
-    private File file;
+    private File image;
 
-    public FileBlock(String title, String url, String name) {
-        this.file = new ExternalFile(url, title, name);
+    public ImageBlock(String url) {
+        this.image = new ExternalFile(url);
     }
 
 }
