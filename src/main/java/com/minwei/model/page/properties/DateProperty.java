@@ -1,4 +1,4 @@
-package com.minwei.model.properties;
+package com.minwei.model.page.properties;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minwei.enums.TimeZone;

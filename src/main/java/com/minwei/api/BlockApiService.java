@@ -1,4 +1,4 @@
-package com.minwei.api.block;
+package com.minwei.api;
 
 import com.minwei.http.request.block.AppendBlockChildrenRequest;
 import com.minwei.http.response.NotionResponse;
@@ -35,11 +35,19 @@ public interface BlockApiService {
      * 检索块子项
      * 使用指定id返回包含的子块对象分页数组
      *
-     * @param token
-     * @param blockId
-     * @return
+     * @param token token
+     * @param blockId 块id
+     * @return 检索块子项响应
      */
     NotionResponse<NotionBlock> retrieveBlockChildren(String token, String blockId);
 
+
+    /**
+     * 删除块
+     * @param token token
+     * @param blockId 块id
+     * @return 删除块响应
+     */
+    NotionResponse<NotionBlock> deleteBlock(String token, String blockId);
 
 }

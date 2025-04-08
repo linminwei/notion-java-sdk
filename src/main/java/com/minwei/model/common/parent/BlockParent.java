@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlockParent {
+public class BlockParent extends Parent{
 
     private String blockId;
 

@@ -1,6 +1,6 @@
 package com.minwei.model.common.richtext.mention;
 
-import com.minwei.model.properties.DateProperty;
+import com.minwei.model.page.properties.DateProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

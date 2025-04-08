@@ -1,6 +1,6 @@
-package com.minwei.api.block.impl;
+package com.minwei.api.impl;
 
-import com.minwei.api.block.BlockApiService;
+import com.minwei.api.BlockApiService;
 import com.minwei.client.NotionClient;
 import com.minwei.http.request.block.AppendBlockChildrenRequest;
 import com.minwei.http.response.NotionResponse;
