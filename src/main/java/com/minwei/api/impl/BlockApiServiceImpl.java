@@ -49,4 +49,9 @@ public class BlockApiServiceImpl implements BlockApiService {
         return notionClient.get(endpoint, NotionBlock.class);
 
     }
+
+    @Override
+    public NotionResponse<NotionBlock> deleteBlock(String token, String blockId) {
+        return null;
+    }
 }
