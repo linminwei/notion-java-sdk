@@ -60,7 +60,31 @@ public class NotionWebhookDTO {
      */
     private Entity entity;
 
-    @Data
+    /**
+     * 附加数据对象
+     */
+    private Data data;
+
+    @lombok.Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class Data{
+
+        /**
+         * 所属父对象
+         */
+        private Parent parent;
+
+        @lombok.Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        private static class Parent {
+            private String id;
+            private String type;
+        }
+    }
+
+    @lombok.Data
     @AllArgsConstructor
     @NoArgsConstructor
     private static class Entity {
