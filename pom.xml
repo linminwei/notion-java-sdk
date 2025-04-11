@@ -54,7 +54,7 @@
     <!--    1.这里的groupId填写你在maven中央仓库上传地址的命名空间namespace-->
     <groupId>io.github.linminwei</groupId>
     <artifactId>notion-java-sdk</artifactId>
-    <version>3.0.4</version>
+    <version>3.0.5</version>
     <name>notion-java-sdk</name>
     <description>Notion非官方Java SDK</description>
     <url>https://github.com/linminwei/notion-java-sdk</url>
@@ -170,7 +170,7 @@
                 <configuration>
                     <!-- 3.此处executable填写你下载的路径
                         keyname填写你根据gpg工具生成的秘钥id-->
-                    <executable>D:\My Development\GnuPG\bin\gpg.exe</executable>
+                    <executable>D:\Develop\Software\GnuPG\bin\gpg.exe</executable>
                     <keyname>9FDD66BF9F91EA68A8EF81F51A3496914A27B947</keyname>
                 </configuration>
                 <executions>

@@ -1,20 +1,20 @@
 package com.minwei.service;
 
 import com.minwei.dto.NotionPropertyConfigDTO;
-import com.minwei.reposotpry.PageRepository;
 import com.minwei.utils.DateUtil;
 import com.minwei.utils.NotionUtil;
 import com.minwei.vo.PageVo;
+import com.minwei.vo.QueryRelationVo;
 import notion.api.v1.NotionClient;
 import notion.api.v1.model.common.File;
 import notion.api.v1.model.common.PropertyType;
 import notion.api.v1.model.pages.Page;
 import notion.api.v1.model.pages.PageParent;
 import notion.api.v1.model.pages.PageProperty;
+import notion.api.v1.model.pages.PagePropertyItem;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +25,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PageServiceImpl implements PageService {
-
-    @Resource
-    private PageRepository pageRepository;
 
     @Override
     public <T> String createPage(T object,String token,String databaseId) {
@@ -47,9 +44,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public <T> List<String> batchCreatePage(List<T> objects,String token,String databaseId) {
-        return objects.stream().map(object-> {
-            return createPage(object,token,databaseId);
-        }).collect(Collectors.toList());
+        return objects.stream().map(object-> createPage(object,token,databaseId)).collect(Collectors.toList());
     }
 
     @Override
@@ -109,11 +104,21 @@ public class PageServiceImpl implements PageService {
                         // 由于Notion限制,无法直接获取完整引用列表,需调用其余接口查询
                         // 获取属性ID
                         String propertyId = pageProperty.getId();
-                        // 属性ID含有特殊字符,进行URL解码
-//                        String propertyIdDecoder = URLDecoder.decode(propertyId);
-
                         // 检索关联属性完整引用
-                        List<String> relationIds = pageRepository.getRelationIds(pageId, propertyId, token);
+                        List<String> relationIds = new ArrayList<>();
+                        // 初始化游标
+                        String startCursor = null;
+
+                        while (true) {
+                            QueryRelationVo relationVo = execute(pageId, propertyId, startCursor, token);
+                            relationIds.addAll(relationVo.getRelationIds());
+                            if (relationVo.getNextCursor() != null) {
+                                // 若游标不为空,则表示还有下一页
+                                startCursor = relationVo.getNextCursor();
+                            } else {
+                                break;
+                            }
+                        }
                         property.setValue(relationIds);
 
                         return property;
@@ -133,4 +138,27 @@ public class PageServiceImpl implements PageService {
                 .updateTime(updateTimeDate).build();
     }
 
+    private QueryRelationVo execute(String pageId, String propertyId, String startCursor, String token) {
+
+        // 获取Notion客户端
+        NotionClient client = NotionUtil.getClient(token);
+
+        PagePropertyItem pagePropertyItem = client.retrievePagePropertyItem(pageId, propertyId, startCursor, 20);
+
+        List<PagePropertyItem> results = pagePropertyItem.getResults();
+        // 提取关联关系 id
+        List<String> relationIds = new ArrayList<>();
+
+        if (results != null) {
+            relationIds = results.stream()
+                    .flatMap(result -> result.getRelation().stream().map(PageProperty.PageReference::getId))
+                    .collect(Collectors.toList());
+        }
+        // 提取游标
+        String nextCursor = pagePropertyItem.getNextCursor();
+
+        return QueryRelationVo.builder()
+                .relationIds(relationIds)
+                .nextCursor(nextCursor).build();
+    }
 }
