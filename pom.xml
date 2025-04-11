@@ -54,7 +54,7 @@
     <!--    1.这里的groupId填写你在maven中央仓库上传地址的命名空间namespace-->
     <groupId>io.github.linminwei</groupId>
     <artifactId>notion-java-sdk</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <name>notion-java-sdk</name>
     <description>Notion非官方Java SDK</description>
     <url>https://github.com/linminwei/notion-java-sdk</url>
