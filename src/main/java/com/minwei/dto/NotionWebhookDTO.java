@@ -66,9 +66,7 @@ public class NotionWebhookDTO {
     private Data data;
 
     @lombok.Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private static class Data{
+    public static class Data{
 
         /**
          * 所属父对象
@@ -76,18 +74,14 @@ public class NotionWebhookDTO {
         private Parent parent;
 
         @lombok.Data
-        @AllArgsConstructor
-        @NoArgsConstructor
-        private static class Parent {
+        public static class Parent {
             private String id;
             private String type;
         }
     }
 
     @lombok.Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private static class Entity {
+    public static class Entity {
 
         /**
          * 所操作主体的id
@@ -99,4 +93,6 @@ public class NotionWebhookDTO {
          */
         private String type;
     }
+
+
 }
