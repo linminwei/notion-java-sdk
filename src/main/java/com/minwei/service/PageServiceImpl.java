@@ -110,10 +110,10 @@ public class PageServiceImpl implements PageService {
                         // 获取属性ID
                         String propertyId = pageProperty.getId();
                         // 属性ID含有特殊字符,进行URL解码
-                        String propertyIdDecoder = URLDecoder.decode(propertyId);
+//                        String propertyIdDecoder = URLDecoder.decode(propertyId);
 
                         // 检索关联属性完整引用
-                        List<String> relationIds = pageRepository.getRelationIds(pageId, propertyIdDecoder, token);
+                        List<String> relationIds = pageRepository.getRelationIds(pageId, propertyId, token);
                         property.setValue(relationIds);
 
                         return property;
