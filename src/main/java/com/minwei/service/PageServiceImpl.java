@@ -3,6 +3,7 @@ package com.minwei.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minwei.anno.NotionProperty;
 import com.minwei.dto.NotionPropertyConfigDTO;
 import com.minwei.utils.DateUtil;
 import com.minwei.utils.NotionUtil;
@@ -20,6 +21,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,16 +56,42 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public PageVo selectById(String id, String token) {
+    public <T> T selectById(Class<T> clazz, String id, String token) {
+        // 实例化类
+        T instance;
+        try {
+            instance = clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("实例化类异常",e);
+        }
+
+        Field[] fields = clazz.getDeclaredFields();
+
         // 获取Notion客户端
         NotionClient client = NotionUtil.getClient(token);
 
         Page page = client.retrievePage(id, null);
 
+        PageVo pageVo = new PageVo();
+        // 解析页面数据
+        parsePageData(pageVo,page,token);
+
+        for (PageVo.Property property : pageVo.getProperties()) {
+            // 设置字段
+            setValue(fields,property, instance);
+        }
+
+
+        return instance;
+    }
+
+    private void parsePageData(PageVo pageVo, Page page,String token) {
         // 页面ID
         String pageId = page.getId();
+        pageVo.setId(pageId);
         // 数据库id
         String databaseId = page.getParent() != null ? page.getParent().getDatabaseId() : null;
+        pageVo.setDatabaseId(databaseId);
         // icon文件
         File icon = (File) page.getIcon();
         String iconUrl = null;
@@ -75,6 +103,7 @@ public class PageServiceImpl implements PageService {
                 iconUrl = icon.getExternal().getUrl();
             }
         }
+        pageVo.setIcon(iconUrl);
 
         // cover文件
         File cover = (File) page.getCover();
@@ -87,62 +116,89 @@ public class PageServiceImpl implements PageService {
                 coverUrl = cover.getExternal().getUrl();
             }
         }
+        pageVo.setCover(coverUrl);
         // 创建时间
         String createdTime = page.getCreatedTime();
         Date createdTimeDate = DateUtil.parseDate(createdTime);
+        pageVo.setCreateTime(createdTimeDate);
         // 更新时间
         String updateTime = page.getLastEditedTime();
         Date updateTimeDate = DateUtil.parseDate(updateTime);
+        pageVo.setUpdateTime(updateTimeDate);
         // 属性列表
         List<PageVo.Property> properties = page.getProperties().entrySet().stream()
-                .map(entry -> {
-                    String propertyName = entry.getKey();
-                    PageProperty pageProperty = entry.getValue();
-                    // 获取属性类型
-                    PropertyType type = pageProperty.getType();
+        .map(entry -> {
+            String propertyName = entry.getKey();
+            PageProperty pageProperty = entry.getValue();
+            // 获取属性类型
+            PropertyType type = pageProperty.getType();
 
-                    PageVo.Property property = new PageVo.Property();
-                    property.setName(propertyName);
-                    property.setType(type);
+            PageVo.Property property = new PageVo.Property();
+            property.setName(propertyName);
+            property.setType(type);
 
 
-                    if (PropertyType.Relation.equals(type)) {
-                        // 由于Notion限制,无法直接获取完整引用列表,需调用其余接口查询
-                        // 获取属性ID
-                        String propertyId = pageProperty.getId();
-                        // 检索关联属性完整引用
-                        List<String> relationIds = new ArrayList<>();
-                        // 初始化游标
-                        String startCursor = null;
+            if (PropertyType.Relation.equals(type)) {
+                // 由于Notion限制,无法直接获取完整引用列表,需调用其余接口查询
+                // 获取属性ID
+                String propertyId = pageProperty.getId();
+                // 检索关联属性完整引用
+                List<String> relationIds = new ArrayList<>();
+                // 初始化游标
+                String startCursor = null;
 
-                        while (true) {
-                            QueryRelationVo relationVo = execute(pageId, propertyId, startCursor, token);
-                            relationIds.addAll(relationVo.getRelationIds());
-                            if (relationVo.getNextCursor() != null) {
-                                // 若游标不为空,则表示还有下一页
-                                startCursor = relationVo.getNextCursor();
-                            } else {
-                                break;
-                            }
-                        }
-                        property.setValue(relationIds);
-
-                        return property;
+                while (true) {
+                    QueryRelationVo relationVo = execute(pageId, propertyId, startCursor, token);
+                    relationIds.addAll(relationVo.getRelationIds());
+                    if (relationVo.getNextCursor() != null) {
+                        // 若游标不为空,则表示还有下一页
+                        startCursor = relationVo.getNextCursor();
+                    } else {
+                        break;
                     }
+                }
+                property.setValue(relationIds);
 
-                    Object value = NotionUtil.getValueByType(pageProperty);
-                    property.setValue(value);
-                    return property;
-                }).collect(Collectors.toList());
-        return PageVo.builder()
-                .id(pageId)
-                .databaseId(databaseId)
-                .icon(iconUrl)
-                .cover(coverUrl)
-                .properties(properties)
-                .createTime(createdTimeDate)
-                .updateTime(updateTimeDate).build();
+                return property;
+            }
+
+            Object value = NotionUtil.getValueByType(pageProperty);
+            property.setValue(value);
+            return property;
+        }).collect(Collectors.toList());
+        pageVo.setProperties(properties);
     }
+
+    @Override
+    public PageVo selectById(String id, String token) {
+        // 获取Notion客户端
+        NotionClient client = NotionUtil.getClient(token);
+
+        Page page = client.retrievePage(id, null);
+
+        PageVo pageVo = new PageVo();
+
+        parsePageData(pageVo,page,token);
+
+        return pageVo;
+    }
+
+    private static <T> void setValue(Field[] fields,PageVo.Property property, T instance) {
+        for (Field field : fields) {
+            field.setAccessible(true);
+            NotionProperty annotation = field.getAnnotation(NotionProperty.class);
+            String name = annotation.name();
+            if (property.getName().equals(name)) {
+                Object value = property.getValue();
+                try {
+                    field.set(instance,value);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("设置字段值异常",e);
+                }
+            }
+        }
+    }
+
 
     private QueryRelationVo execute(String pageId, String propertyId, String startCursor, String token) {
 

@@ -3,7 +3,3 @@ server:
 spring:
   application:
     name: notion-plus
-notion:
-  token: "secret_iX3U9fFKNOLcvC9D8S5D2ga8wUhHJ7FDh2g6RXsGFEl"
-  database:
-    "xxxx": "xxx"

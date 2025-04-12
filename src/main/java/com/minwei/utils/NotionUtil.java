@@ -1,5 +1,6 @@
 package com.minwei.utils;
 
+import com.google.gson.internal.LazilyParsedNumber;
 import com.minwei.anno.NotionProperty;
 import com.minwei.constants.FilterType;
 import com.minwei.dto.NotionPropertyConfigDTO;
@@ -262,10 +263,13 @@ public class NotionUtil {
                     return null;
                 }
                 if (NumberUtil.checkType(number, Integer.class)) {
-                    return number.intValue();
+                    return Integer.valueOf(String.valueOf(number.intValue()));
                 }
                 if (NumberUtil.checkType(number, BigDecimal.class)) {
-                    return number.doubleValue();
+                    return BigDecimal.valueOf(number.doubleValue());
+                }
+                if (NumberUtil.checkType(number, LazilyParsedNumber.class)){
+                    return BigDecimal.valueOf(number.doubleValue());
                 }
                 return null;
             case Date:
@@ -295,7 +299,7 @@ public class NotionUtil {
                 }
                 files.forEach(file -> {
                     String fileName = file.getName();
-                    String fileUrl = file.getFile() != null ? file.getFile().getUrl() : null;
+                    String fileUrl = file.getFile() != null ? file.getFile().getUrl() : file.getExternal().getUrl();
                     filesMap.put(fileName, fileUrl);
                 });
                 return filesMap;

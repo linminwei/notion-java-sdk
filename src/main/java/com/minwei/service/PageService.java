@@ -35,5 +35,14 @@ public interface PageService {
      * @param token token
      * @return PageVo
      */
+    <T> T selectById(Class<T> clazz,String id, String token);
+
+    /**
+     * 根据id查询页面
+     *
+     * @param id    id
+     * @param token token
+     * @return PageVo
+     */
     PageVo selectById(String id, String token);
 }
