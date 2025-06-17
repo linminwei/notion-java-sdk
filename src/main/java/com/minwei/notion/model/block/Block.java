@@ -26,7 +26,10 @@ import java.util.Date;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = "audio", value = AudioBlock.class)
+        @JsonSubTypes.Type(name = "audio", value = AudioBlock.class),
+        @JsonSubTypes.Type(name = "bookmark", value = BookmarkBlock.class),
+        @JsonSubTypes.Type(name = "breadcrumb", value = Breadcrumb.class),
+        @JsonSubTypes.Type(name = "bulleted_list_item", value = BulletedListItemBlock.class),
 })
 @Data
 public abstract class Block {

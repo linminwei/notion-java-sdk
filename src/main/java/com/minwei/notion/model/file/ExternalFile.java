@@ -8,26 +8,26 @@ import lombok.EqualsAndHashCode;
 /**
  * 外部文件对象
  *
- * @author lmw 2025/06/16
+ * @author lmw 2025/06/18
  */
+
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = true)
 public class ExternalFile extends File {
 
     @JsonProperty("external")
-    private ExternalElement external;
+    private ExternalFileContent external;
 
 
     /**
-     * 外部文件内容节点
+     * 外部文件对象内容
      */
     @Data
-    @EqualsAndHashCode(callSuper = false)
-    public static class ExternalElement {
+    public static class ExternalFileContent {
+
         /** 指向外部托管内容的链接 **/
         @JsonProperty("url")
         private String url;
     }
-
 
 }

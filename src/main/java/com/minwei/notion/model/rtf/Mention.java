@@ -1,4 +1,4 @@
-package com.minwei.notion.model.file;
+package com.minwei.notion.model.rtf;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,10 +7,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 
 /**
-* 文件基对象
+* 提及对象
 *
 * @author lmw 2025/06/18
 */
+@Data
 @JsonTypeInfo(
         /* 表示使用类型名称作为类型表示 **/
         use = JsonTypeInfo.Id.NAME,
@@ -22,13 +23,14 @@ import lombok.Data;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = "file", value = NotionFile.class),
-        @JsonSubTypes.Type(name = "file_upload", value = UploadFile.class),
-        @JsonSubTypes.Type(name = "external", value = ExternalFile.class),
+        @JsonSubTypes.Type(name = "database", value = MentionDatabase.class),
+        @JsonSubTypes.Type(name = "date", value = MentionDate.class),
+        @JsonSubTypes.Type(name = "link_preview", value = MentionLinkPreview.class),
+        @JsonSubTypes.Type(name = "page", value = MentionPage.class),
 })
-@Data
-public abstract class File {
+public abstract class Mention {
 
+    /** 提及对象类型 **/
     @JsonProperty("type")
     private String type;
 

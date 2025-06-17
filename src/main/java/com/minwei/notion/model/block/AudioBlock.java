@@ -14,7 +14,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class AudioBlock extends Block{
 
-
     private File audio;
 
 }
