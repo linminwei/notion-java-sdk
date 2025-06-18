@@ -1,11 +1,13 @@
-package com.minwei.notion.model.file;
+package com.minwei.notion.model.common;
 
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.minwei.notion.model.file.ExternalFile;
+import com.minwei.notion.model.file.UploadFile;
 
 /**
- * 文件基对象
+ * Notion 封面接口
  *
  * @author lmw 2025/06/18
  */
@@ -16,12 +18,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = "file", value = NotionFile.class),
-        @JsonSubTypes.Type(name = "file_upload", value = UploadFile.class),
         @JsonSubTypes.Type(name = "external", value = ExternalFile.class),
+        @JsonSubTypes.Type(name = "file_upload", value = UploadFile.class),
 })
-public interface File{
-
+public interface Cover {
     String getType();
-
 }

@@ -2,7 +2,6 @@ package com.minwei.notion.model.parent;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 
@@ -17,11 +16,11 @@ import lombok.Data;
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
         visible = true
 )
-@JsonSubTypes({
-        @JsonSubTypes.Type(name = "page_id", value = PageParent.class),
-        @JsonSubTypes.Type(name = "database_id", value = DatabaseParent.class),
-        @JsonSubTypes.Type(name = "block_id", value = BlockParent.class)
-})
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(name = "page_id", value = PageParent.class),
+//        @JsonSubTypes.Type(name = "database_id", value = DatabaseParent.class),
+//        @JsonSubTypes.Type(name = "block_id", value = BlockParent.class)
+//})
 @Data
 public abstract class Parent {
 
