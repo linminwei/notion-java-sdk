@@ -1,4 +1,7 @@
-## Notion 非官方 java sdk
+## Notion 非官方 java sdk 
+
+by 林泯位
+福建厦门
 
 ## maven引用
 
