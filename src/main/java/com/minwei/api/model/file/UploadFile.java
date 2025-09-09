@@ -1,7 +1,7 @@
 package com.minwei.api.model.file;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class UploadFile extends File {
 
-    @JsonProperty("file_upload.id")
+    @JsonUnwrapped(prefix = "file_upload.id")
     private String id;
 
 }

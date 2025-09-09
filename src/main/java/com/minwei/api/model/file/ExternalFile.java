@@ -1,7 +1,7 @@
 package com.minwei.api.model.file;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class ExternalFile extends File {
 
-    @JsonProperty("external.url")
+    @JsonUnwrapped(prefix = "external.url")
     private String url;
 
 }

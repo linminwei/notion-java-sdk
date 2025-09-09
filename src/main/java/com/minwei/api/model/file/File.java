@@ -3,6 +3,7 @@ package com.minwei.api.model.file;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
 
 
 /**
@@ -19,7 +20,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "file", value = NotionFile.class),
         @JsonSubTypes.Type(name = "file_upload", value = UploadFile.class),
-        @JsonSubTypes.Type(name = "external", value = UploadFile.class)
+        @JsonSubTypes.Type(name = "external", value = ExternalFile.class)
 })
-public class File {
+@Data
+public abstract class File {
+
+    private String type;
+
 }

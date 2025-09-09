@@ -1,9 +1,15 @@
 package com.minwei.api.model.file;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minwei.test.notion.model.property.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Notion托管的文件对象
@@ -11,16 +17,19 @@ import lombok.Data;
  * @author lmw 2025/09/08
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class NotionFile extends File {
 
-    @JsonProperty("type")
-    private String type;
+    private NotionFileInfo file;
 
-    @JsonProperty("file.url")
-    private String url;
+    @Data
+    private static class NotionFileInfo {
 
-    // 链接过期的日期和时间
-    @JsonProperty("file.expiry_time")
-    private Date expiryTime;
+        private String url;
 
+        // 同时指定路径和日期格式
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+        private Date expiryTime;
+
+    }
 }

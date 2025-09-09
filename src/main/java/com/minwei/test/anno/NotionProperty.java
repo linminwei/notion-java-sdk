@@ -1,5 +1,7 @@
 package com.minwei.test.anno;
 
+//import notion.api.v1.model.common.PropertyType;
+
 import notion.api.v1.model.common.PropertyType;
 
 import java.lang.annotation.*;
